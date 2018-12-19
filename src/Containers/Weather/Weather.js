@@ -3,6 +3,7 @@ import Form from '../../Components/Form';
 import Placeholder from '../../Components/PlaceHolder';
 import DarkBox from '../../Components/UI/DarkBox';
 import Response from '../../Components/Response';
+import datagrab from '../../Requests/weatherData';
 import { MockData } from '../../Requests/weatherData';
 import { urlBuilder, apiKey } from '../../Utils';
 
@@ -19,7 +20,7 @@ class Weather extends Component {
 
     createURL = (city, country) => {
         let FullURL = urlBuilder(this.state.weatherApiURL, city, country, 'imperial', apiKey);
-        this.getWeatherData(FullURL, MockData);
+        this.getWeatherData(FullURL, datagrab);
     };
 
     getWeatherData = (fullURL, RequestHandler) => {

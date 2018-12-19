@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import InputBox from '../UI/InputBox';
 import Button from '../UI/Button';
 import classes from './Form.module.css';
+import reactDOM from 'react-dom';
 
 
 class Form extends Component {
+
     state = { 
             city: '',
             country: ''
     };
     
+    componentDidMount = () => {
+        
+    }
+
+    focusInput = (component) => {
+        if (component) {
+            console.log(component);
+            reactDOM.findDOMNode(component).focus();
+        }
+      };
 
     getWeatherClickHandler = (e) => {
         e.preventDefault();
@@ -28,7 +40,11 @@ class Form extends Component {
         return (
             <form>
                 <div>
-                    <InputBox placeholder='City' type='text' name='city' value={this.state.city} onChangeHandler={this.handleInputChange} autoFocus></InputBox>
+                    <InputBox placeholder='City' type='text' name='city' 
+                    ref="cityRef"
+                    value={this.state.city} 
+                    onChangeHandler={this.handleInputChange} 
+                    autoFocus></InputBox>
                 </div>
                 <div>
                     <InputBox placeholder='Country' type='text' name='country' value={this.state.country} onChangeHandler={this.handleInputChange}></InputBox>
