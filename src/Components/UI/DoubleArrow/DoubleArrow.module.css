@@ -1,0 +1,27 @@
+.arrowContainer {
+    position: absolute;
+    width: 80%;
+    left: 17%;
+}
+
+.arrowTop {
+    fill: none;
+    stroke: white;
+    stroke-width: 3;
+    margin: 0;
+}
+
+.arrowBottom {
+    fill: none;
+    stroke: gray;
+    stroke-width: 3;
+    margin: 0;
+}
+
+.top {
+    bottom: 48%;
+}
+
+.bottom {
+    bottom: 43%;
+}
