@@ -1,1 +1,1 @@
-export {default} from './DarkBox';
+export { default } from "./DarkBox";

@@ -1,1 +1,1 @@
-export {default} from './DoubleArrow';
+export { default } from "./DoubleArrow";

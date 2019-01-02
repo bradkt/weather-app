@@ -1,1 +1,1 @@
-export {default} from './PlaceHolder';
+export { default } from "./PlaceHolder";
