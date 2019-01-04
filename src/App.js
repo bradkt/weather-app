@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <BrowserRouter>
+        <BrowserRouter basename="/weather-app">
           <React.Fragment>
             <Route path="/weather" component={WeatherLayout} />
             <Route path="/movies" component={MovieLayout} />
