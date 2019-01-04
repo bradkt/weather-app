@@ -4,16 +4,15 @@ import Placeholder from "../../Components/PlaceHolder";
 import DarkBox from "../../Components/UI/DarkBox";
 import Response from "../../Components/Response";
 import { movieDataAPIKeyV3 } from "../../Requests/movieData";
-import MovieAPI, {
-  MockMovieData,
-  MockMovieDetails
-} from "../../Requests/fetchData";
 import { movieSearchURLBuilder, movieURLBuilder } from "../../Utils";
+import { MockMovieData, MockMovieDetails } from "../../Requests/fetchData";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 class Movie extends Component {
   state = {
     MovieSearchApiURL: "https://api.themoviedb.org/3/search/movie?",
     MovieApiURL: "https://api.themoviedb.org/3/movie/",
+    MovieDisplayData: null,
     MovieData: [],
     MovieDetailData: {},
     displayResults: false,
@@ -28,6 +27,17 @@ class Movie extends Component {
       movieDataAPIKeyV3
     );
     this.getMovieData(FullURL, MockMovieData);
+    return FullURL;
+  };
+
+  createMovieDetailsURL = movieID => {
+    let FullDetailURL = movieURLBuilder(
+      this.state.MovieApiURL,
+      movieID,
+      movieDataAPIKeyV3
+    );
+    this.getMovieDetails(FullDetailURL, MockMovieDetails);
+    return FullDetailURL;
   };
 
   getMovieData = (fullURL, RequestHandler) => {
@@ -35,10 +45,12 @@ class Movie extends Component {
     RequestHandler.GET(fullURL)
       .then(function(data) {
         _this.setMovieData(data);
+        return data;
       })
       .catch(function(error) {
         _this.DisplayRequestError();
         console.log(error);
+        return { error: error };
       });
   };
 
@@ -48,8 +60,7 @@ class Movie extends Component {
     data.results.map((movie, i) => {
       tempData[i] = {
         value: movie.original_title,
-        id: movie.id,
-        ind: i
+        id: movie.id
       };
     });
 
@@ -58,14 +69,40 @@ class Movie extends Component {
     this.setState({
       MovieData: { ...tempData }
     });
-    console.log(this.state);
+
     tempData = [];
 
     this.shouldDisplayMovieData();
   };
 
-  setMovieDetailsData = data => {
-    console.log(data);
+  getMovieDetails = (fullURL, RequestHandler) => {
+    let _this = this;
+    RequestHandler.GET(fullURL)
+      .then(function(data) {
+        _this.setMovieDetailData(data);
+        return data;
+      })
+      .catch(function(error) {
+        _this.DisplayRequestError();
+        console.log(error);
+        return { error: error };
+      });
+  };
+
+  setMovieDetailData = data => {
+    this.setState({
+      MovieDetailData: {
+        title: { value: data.title },
+        homepage: { value: data.homepage },
+        release_date: { value: data.release_date },
+        revenue: { value: data.revenue },
+        runtime: { value: data.runtime },
+        vote_average: { value: data.vote_average },
+        vote_count: { value: data.vote_count }
+      }
+    });
+
+    this.shouldDisplayMovieData();
   };
 
   shouldDisplayMovieData = () => {
@@ -87,50 +124,34 @@ class Movie extends Component {
   movieClicked = movieID => {
     this.createMovieDetailsURL(movieID);
     this.shouldDisplayMovieData();
-  };
-
-  getMovieDetails = (fullURL, RequestHandler) => {
-    let _this = this;
-    RequestHandler.GET(fullURL)
-      .then(function(data) {
-        _this.setMovieDetailsData(data);
-      })
-      .catch(function(error) {
-        _this.DisplayRequestError();
-        console.log(error);
-      });
-  };
-
-  createMovieDetailsURL = movieID => {
-    let FullURL = movieURLBuilder(
-      this.state.MovieApiURL,
-      movieID,
-      movieDataAPIKeyV3
-    );
-    this.getMovieDetails(FullURL, MockMovieDetails);
+    this.setState({
+      MovieData: null
+    });
   };
 
   render() {
     return (
       <div>
-        <MovieForm getFormValues={this.createURL} />
-        <DarkBox color="black">
-          {this.state.displayResults ? (
-            <Response
-              DTO={this.state.MovieData}
-              clicked={this.shouldDisplayMovieData}
-              movieClicked={this.movieClicked}
-            />
-          ) : (
-            <Placeholder
-              message={
-                this.state.requestHadError
-                  ? `This Request Had an Error`
-                  : `Enter a location above to get started`
-              }
-            />
-          )}
-        </DarkBox>
+        <ErrorBoundary>
+          <MovieForm getFormValues={this.createURL} />
+          <DarkBox color="black">
+            {this.state.displayResults ? (
+              <Response
+                DTO={this.state.MovieData || this.state.MovieDetailData}
+                clicked={this.shouldDisplayMovieData}
+                movieClicked={this.movieClicked}
+              />
+            ) : (
+              <Placeholder
+                message={
+                  this.state.requestHadError
+                    ? `This Request Had an Error`
+                    : `Enter a location above to get started`
+                }
+              />
+            )}
+          </DarkBox>
+        </ErrorBoundary>
       </div>
     );
   }

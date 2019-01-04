@@ -10,7 +10,7 @@ export let weatherURLBuilder = (url, city, country, units, key) => {
 
 //api_key=6f3a1bef2816aa6352efacdebf1b4ac5&query=back+to+the+future
 export let movieSearchURLBuilder = (url, movieName, key) => {
-  let safeMovieName = movieName.split().join("+");
+  let safeMovieName = movieName.split(" ").join("+");
   let fullURL = `${url} ${key} &query= ${safeMovieName}`.replace(/\s/g, "");
   return fullURL;
 };

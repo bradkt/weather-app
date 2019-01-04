@@ -3,13 +3,14 @@ import { WeatherForm } from "../../Components/Forms";
 import Placeholder from "../../Components/PlaceHolder";
 import DarkBox from "../../Components/UI/DarkBox";
 import Response from "../../Components/Response";
-import weatherAPI, { weatherDataAPIKey } from "../../Requests/weatherData";
-import { MockWeatherData } from "../../Requests/fetchData";
+import { weatherDataAPIKey } from "../../Requests/weatherData";
+import weatherAPI, { MockWeatherData } from "../../Requests/fetchData";
 import { weatherURLBuilder } from "../../Utils";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 class Weather extends Component {
   state = {
-    weatherApiURL: "https://api.openweathermap.org/data/2.5/weather",
+    weatherApiURL: "https://api.openweatherma.org/data/2.5/weather",
     weatherData: {},
     displayResults: false,
     requestHadError: false,
@@ -25,6 +26,7 @@ class Weather extends Component {
       weatherDataAPIKey
     );
     this.getWeatherData(FullURL, MockWeatherData);
+    return FullURL;
   };
 
   getWeatherData = (fullURL, RequestHandler) => {
@@ -32,10 +34,12 @@ class Weather extends Component {
     RequestHandler.GET(fullURL)
       .then(function(data) {
         _this.setWeatherData(data);
+        return data;
       })
       .catch(function(error) {
         _this.DisplayRequestError();
         console.log(error);
+        return { error: error };
       });
   };
 
@@ -70,23 +74,25 @@ class Weather extends Component {
   render() {
     return (
       <div>
-        <WeatherForm getFormValues={this.createURL} />
-        <DarkBox color="black">
-          {this.state.displayResults ? (
-            <Response
-              DTO={this.state.weatherData}
-              clicked={this.shouldDisplayWeatherData}
-            />
-          ) : (
-            <Placeholder
-              message={
-                this.state.requestHadError
-                  ? `This Request Had an Error`
-                  : `Enter a location above to get started`
-              }
-            />
-          )}
-        </DarkBox>
+        <ErrorBoundary>
+          <WeatherForm getFormValues={this.createURL} />
+          <DarkBox color="black">
+            {this.state.displayResults ? (
+              <Response
+                DTO={this.state.weatherData}
+                clicked={this.shouldDisplayWeatherData}
+              />
+            ) : (
+              <Placeholder
+                message={
+                  this.state.requestHadError
+                    ? `This Request Had an Error`
+                    : `Enter a location above to get started`
+                }
+              />
+            )}
+          </DarkBox>
+        </ErrorBoundary>
       </div>
     );
   }

@@ -7,7 +7,13 @@ const Row = props => (
     onClick={() => props.movieClicked(props.id)}
   >
     <td className={["blue-text", classes.td].join(" ")}> {props.title} </td>
-    <td className={["gray-text", classes.td].join(" ")}> {props.value} </td>
+    <td className={["gray-text", classes.td].join(" ")}>
+      {String(props.value).includes("http://") ? (
+        <a href={props.value}> {props.value} </a>
+      ) : (
+        props.value
+      )}
+    </td>
   </tr>
 );
 
