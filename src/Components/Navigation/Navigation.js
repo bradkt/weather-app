@@ -14,10 +14,12 @@ class Navigation extends Component {
           <span />
           <ul className={classes.menu}>
             <li>
-              <NavLink to="/weather">Weather</NavLink>
+              <NavLink to={process.env.PUBLIC_URL + "/weather"}>
+                Weather
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/movies">Movies</NavLink>
+              <NavLink to={process.env.PUBLIC_URL + "/movies"}>Movies</NavLink>
             </li>
           </ul>
         </div>

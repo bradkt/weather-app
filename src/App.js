@@ -4,13 +4,23 @@ import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 
 class App extends Component {
+  componentDidMount = () => {
+    console.log("public url: ", process.env.PUBLIC_URL);
+  };
+
   render() {
     return (
       <div className="App">
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter>
           <React.Fragment>
-            <Route path="/weather" component={WeatherLayout} />
-            <Route path="/movies" component={MovieLayout} />
+            <Route
+              path={process.env.PUBLIC_URL + "/weather"}
+              component={WeatherLayout}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/movies"}
+              component={MovieLayout}
+            />
           </React.Fragment>
         </BrowserRouter>
       </div>
