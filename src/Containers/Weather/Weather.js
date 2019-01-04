@@ -10,7 +10,7 @@ import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 class Weather extends Component {
   state = {
-    weatherApiURL: "https://api.openweatherma.org/data/2.5/weather",
+    weatherApiURL: "https://api.openweathermap.org/data/2.5/weather",
     weatherData: {},
     displayResults: false,
     requestHadError: false,
