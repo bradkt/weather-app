@@ -1,4 +1,10 @@
 form {
-    width: 50%;
-    margin: auto;
+  width: 50%;
+  margin: auto;
+}
+
+h1,
+h2,
+h3 {
+  color: black;
 }

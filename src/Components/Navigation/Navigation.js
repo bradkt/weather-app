@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classes from "./Navigation.module.css";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Navigation extends Component {
   render() {
@@ -19,6 +20,11 @@ class Navigation extends Component {
             <li>
               <NavLink to="/movies">Movies</NavLink>
             </li>
+            <li>
+              <NavLink to="/" onClick={this.props.logout}>
+                Logout
+              </NavLink>
+            </li>
           </ul>
         </div>
       </nav>
@@ -26,4 +32,19 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+let mapStateToProps = state => {
+  return {
+    isLoggedIn: state.isLoggedIn
+  };
+};
+
+let mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch({ type: "LOGOUT" })
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navigation);

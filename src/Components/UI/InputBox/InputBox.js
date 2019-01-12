@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import classes from "./InputBox.module.css";
 
 class InputBox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     return (
       <div>
@@ -18,7 +13,6 @@ class InputBox extends Component {
           onChange={this.props.onChangeHandler}
           name={this.props.name}
           value={this.props.inputVal}
-          required
         />
       </div>
     );
