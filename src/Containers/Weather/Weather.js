@@ -5,6 +5,7 @@ import DarkBox from "../../Components/UI/DarkBox";
 import Response from "../../Components/Response";
 import { weatherDataAPIKey } from "../../Requests/weatherData";
 import weatherAPI, { MockWeatherData } from "../../Requests/fetchData";
+import { axiosGetWeather } from "../../Requests/AxiosData";
 import { weatherURLBuilder } from "../../Utils";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
@@ -31,6 +32,8 @@ class Weather extends Component {
 
   getWeatherData = (fullURL, RequestHandler) => {
     let _this = this;
+    //let testb = RequestHandler.GET(fullURL);
+    //console.log(testb);
     RequestHandler.GET(fullURL)
       .then(function(data) {
         _this.setWeatherData(data);
@@ -75,7 +78,10 @@ class Weather extends Component {
     return (
       <div>
         <ErrorBoundary>
-          <WeatherForm getFormValues={this.createURL} />
+          <WeatherForm
+            getFormValues={this.createURL}
+            optionToggle={this.state.displayResults}
+          />
           <DarkBox color="black">
             {this.state.displayResults ? (
               <Response

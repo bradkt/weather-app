@@ -43,7 +43,7 @@ class MovieForm extends Component {
           />
         </div>
         <Button color="blue" clicked={this.getMovieClickHandler}>
-          Get Movie
+          {this.props.optionToggle ? "Clear" : "Get Movie"}
         </Button>
       </form>
     );

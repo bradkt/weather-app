@@ -30,7 +30,7 @@ function LoginForm(props) {
 
   function loginHandler(e) {
     e.preventDefault();
-    console.log(emailHandle.inputVal, ": ", passwordHandle.inputVal);
+    //console.log(emailHandle.inputVal, ": ", passwordHandle.inputVal);
     if (
       emailHandle.inputVal === "bradktracy@gmail.com" &&
       passwordHandle.inputVal === "123"

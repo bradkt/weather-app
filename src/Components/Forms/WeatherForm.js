@@ -54,7 +54,7 @@ class WeatherForm extends Component {
           />
         </div>
         <Button color="blue" clicked={this.getWeatherClickHandler}>
-          Get Weather
+          {this.props.optionToggle ? "Clear" : "Get Weather"}
         </Button>
       </form>
     );

@@ -133,7 +133,10 @@ class Movie extends Component {
     return (
       <div>
         <ErrorBoundary>
-          <MovieForm getFormValues={this.createURL} />
+          <MovieForm
+            getFormValues={this.createURL}
+            optionToggle={this.state.displayResults}
+          />
           <DarkBox color="black">
             {this.state.displayResults ? (
               <Response

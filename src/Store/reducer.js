@@ -1,7 +1,6 @@
 import initialState from "./initialState";
 
 function reducer(state = initialState, action) {
-  console.log("action", action);
   switch (action.type) {
     case "LOGIN":
       return {
